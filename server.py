@@ -18,7 +18,10 @@ def handler(sock):
 			return
 
 		for i in clients:
-			i.sendall(raw_data)
+			if i != sock:
+				i.sendall(raw_data)
+			else:
+				continue
 
 s.listen()
 
@@ -26,5 +29,5 @@ while True:
 	client_socket, client_address = s.accept()
 	clients.append(client_socket)
 
-	t = threading.Thread(target=listener, args=(client_socket,))
+	t = threading.Thread(target=handler, args=(client_socket,))
 	t.start()
