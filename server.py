@@ -13,7 +13,12 @@ def handler(sock):
 
 	while True:
 		raw_data = sock.recv(buffersize)
+
 		if raw_data == b'':
+			for i in range(len(clients)):
+				if clients[i] == sock:
+					clients.pop(i)
+
 			sock.close()
 			return
 
